@@ -18,12 +18,28 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]][contributors-url]
+
+<p align="center">
+  <a href="https://github.com/jgvlf/JTech/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/jgvlf/JTech?color=BD00FF&style=plastic"/></a>
+
+  <a href="https://github.com/jgvlf/JTech/network/members"><img alt="Forks" src="https://img.shields.io/github/forks/jgvlf/JTech?color=6F00D8&style=plastic"/></a>
+
+  <a href="https://github.com/jgvlf/JTech/stargazers"><img alt="Stargazers" src="https://img.shields.io/github/stars/jgvlf/JTech?color=0003FF&style=plastic"/></a>
+
+  <a href="https://github.com/jgvlf/JTech/issues"><img alt="Issues" src="https://img.shields.io/github/issues/jgvlf/JTech?color=008BFF&style=plastic"/></a>
+
+  <a href="https://github.com/jgvlf/JTech/blob/deploy/LICENSE.txt"><img alt="MIT License" src="https://img.shields.io/github/license/jgvlf/JTech?color=00FBFF&style=plastic"/></a>
+
+  <a href="https://www.linkedin.com/in/jgvlf/"><img alt="LinkedIn" src="https://img.shields.io/badge/-LinkedIn-black.svg?style=plastic&logo=linkedin&color=0A66C2" /></a>
+
+</p>
+
+<!-- [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+[![LinkedIn][linkedin-shield]][linkedin-url] -->
 
 
 
@@ -123,7 +139,7 @@ Project Link: [https://github.com/jgvlf/JTech](https://github.com/jgvlf/JTech)
 [issues-url]: https://github.com/jgvlf/JTech/issues
 [license-shield]: https://img.shields.io/github/license/jgvlf/JTech?color=00FBFF&style=plastic
 [license-url]: https://github.com/jgvlf/JTech/blob/deploy/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=plastic&logo=linkedin&color=0A66C2
 [linkedin-url]: https://www.linkedin.com/in/jgvlf/
 <!-- [product-screenshot]: images/screenshot.png -->
 
