@@ -35,6 +35,19 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `jtech`.`Conta`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `jtech`.`Conta` ;
+
+CREATE TABLE IF NOT EXISTS `jtech`.`Conta` (
+  `nome_usuario` VARCHAR(255) NOT NULL,
+  `senha` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`nome_usuario`),
+  UNIQUE INDEX `nome_usuário_UNIQUE` (`nome_usuario` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `jtech`.`Endereco`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `jtech`.`Endereco` ;
@@ -52,19 +65,6 @@ CREATE TABLE IF NOT EXISTS `jtech`.`Endereco` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `complemento_UNIQUE` (`complemento` ASC) VISIBLE,
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `jtech`.`Conta`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `jtech`.`Conta` ;
-
-CREATE TABLE IF NOT EXISTS `jtech`.`Conta` (
-  `nome_usuario` VARCHAR(255) NOT NULL,
-  `senha` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`nome_usuario`),
-  UNIQUE INDEX `nome_usuário_UNIQUE` (`nome_usuario` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
@@ -92,33 +92,37 @@ CREATE TABLE IF NOT EXISTS `jtech`.`Cliente` (
   `primeiro_nome` VARCHAR(255) NOT NULL,
   `ultimo_nome` VARCHAR(255) NOT NULL,
   `nascimento` DATE NOT NULL,
-  `idConta` VARCHAR(255) NOT NULL,
-  `idEndereco` INT NOT NULL,
-  `idContato` VARCHAR(255) NOT NULL,
-  `fk_idPedido` INT NOT NULL,
+  `fk_idContato` VARCHAR(255) NOT NULL,
+  `fk_idConta` VARCHAR(255) NOT NULL,
+  `fk_idEndereco` INT NOT NULL,
+  `fk_idPedido` INT NULL,
   PRIMARY KEY (`CPF`),
   UNIQUE INDEX `CPF_UNIQUE` (`CPF` ASC) VISIBLE,
   UNIQUE INDEX `CNPJ_UNIQUE` (`CNPJ` ASC) VISIBLE,
-  UNIQUE INDEX `idContato_UNIQUE` (`idContato` ASC) VISIBLE,
-  UNIQUE INDEX `idEndereco_UNIQUE` (`idEndereco` ASC) VISIBLE,
-  UNIQUE INDEX `idConta_UNIQUE` (`idConta` ASC) VISIBLE,
-  UNIQUE INDEX `idPedido_UNIQUE` (`fk_idPedido` ASC) VISIBLE,
-  CONSTRAINT `email`
-    FOREIGN KEY (`idContato`)
+  INDEX `fk_Cliente_Contato1_idx` (`fk_idContato` ASC) VISIBLE,
+  UNIQUE INDEX `fk_idContato_UNIQUE` (`fk_idContato` ASC) VISIBLE,
+  INDEX `fk_Cliente_Conta1_idx` (`fk_idConta` ASC) VISIBLE,
+  INDEX `fk_Cliente_Endereco1_idx` (`fk_idEndereco` ASC) VISIBLE,
+  UNIQUE INDEX `Conta_nome_usuario_UNIQUE` (`fk_idConta` ASC) VISIBLE,
+  UNIQUE INDEX `Endereco_id_UNIQUE` (`fk_idEndereco` ASC) VISIBLE,
+  INDEX `fk_Cliente_Pedido1_idx` (`fk_idPedido` ASC) VISIBLE,
+  UNIQUE INDEX `fk_idPedido_UNIQUE` (`fk_idPedido` ASC) VISIBLE,
+  CONSTRAINT `fk_Cliente_Contato`
+    FOREIGN KEY (`fk_idContato`)
     REFERENCES `jtech`.`Contato` (`email`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `id`
-    FOREIGN KEY (`idEndereco`)
-    REFERENCES `jtech`.`Endereco` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `nome_usuario`
-    FOREIGN KEY (`idConta`)
+  CONSTRAINT `fk_Cliente_Conta`
+    FOREIGN KEY (`fk_idConta`)
     REFERENCES `jtech`.`Conta` (`nome_usuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `idPedido`
+  CONSTRAINT `fk_Cliente_Endereco`
+    FOREIGN KEY (`fk_idEndereco`)
+    REFERENCES `jtech`.`Endereco` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Cliente_Pedido`
     FOREIGN KEY (`fk_idPedido`)
     REFERENCES `jtech`.`Pedido` (`idPedido`)
     ON DELETE NO ACTION
