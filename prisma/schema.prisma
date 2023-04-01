@@ -34,16 +34,21 @@ model cliente {
   primeiro_nome String       @db.VarChar(255)
   ultimo_nome   String       @db.VarChar(255)
   nascimento    DateTime     @db.Date
-  idConta       String       @unique(map: "idConta_UNIQUE") @db.VarChar(255)
-  idEndereco    Int          @unique(map: "idEndereco_UNIQUE")
-  idContato     String       @unique(map: "idContato_UNIQUE") @db.VarChar(255)
-  fk_idPedido   Int          @unique(map: "idPedido_UNIQUE")
-  contato       contato      @relation(fields: [idContato], references: [email], onDelete: NoAction, onUpdate: NoAction, map: "email")
-  endereco      endereco     @relation(fields: [idEndereco], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "id")
-  pedido        pedido       @relation(fields: [fk_idPedido], references: [idPedido], onDelete: NoAction, onUpdate: NoAction, map: "idPedido")
-  conta         conta        @relation(fields: [idConta], references: [nome_usuario], onDelete: NoAction, onUpdate: NoAction, map: "nome_usuario")
+  fk_idContato  String       @unique(map: "fk_idContato_UNIQUE") @db.VarChar(255)
+  fk_idConta    String       @unique(map: "Conta_nome_usuario_UNIQUE") @db.VarChar(255)
+  fk_idEndereco Int          @unique(map: "Endereco_id_UNIQUE")
+  fk_idPedido   Int?         @unique(map: "fk_idPedido_UNIQUE")
+  conta         conta        @relation(fields: [fk_idConta], references: [nome_usuario], onDelete: NoAction, onUpdate: NoAction, map: "fk_Cliente_Conta")
+  contato       contato      @relation(fields: [fk_idContato], references: [email], onDelete: NoAction, onUpdate: NoAction, map: "fk_Cliente_Contato")
+  endereco      endereco     @relation(fields: [fk_idEndereco], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Cliente_Endereco")
+  pedido        pedido?      @relation(fields: [fk_idPedido], references: [idPedido], onDelete: NoAction, onUpdate: NoAction, map: "idPedido")
   compra        compra[]
   gerencia_c    gerencia_c[]
+
+  @@index([fk_idConta], map: "fk_Cliente_Conta1_idx")
+  @@index([fk_idContato], map: "fk_Cliente_Contato1_idx")
+  @@index([fk_idEndereco], map: "fk_Cliente_Endereco1_idx")
+  @@index([fk_idPedido], map: "fk_Cliente_Pedido1_idx")
 }
 
 model compra {
