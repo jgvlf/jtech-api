@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,149 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model administrador {
+  idAdministrador Int          @id @unique(map: "idAdministrador_UNIQUE") @default(autoincrement())
+  primiero_nome   String       @db.VarChar(255)
+  ultimo_nome     String       @db.VarChar(255)
+  idConta         String       @unique(map: "idConta_UNIQUE") @db.VarChar(255)
+  conta           conta        @relation(fields: [idConta], references: [nome_usuario], onDelete: NoAction, onUpdate: NoAction, map: "nome_usuario_a")
+  gerencia_c      gerencia_c[]
+  gerencia_f      gerencia_f[]
+}
+
+model atualiza {
+  Funcionario_idFuncionario Int
+  Produto_idProduto         Int
+  funcionario               funcionario @relation(fields: [Funcionario_idFuncionario], references: [idFuncionario], onDelete: NoAction, onUpdate: NoAction, map: "fk_Funcionario_has_Produto_Funcionario1")
+  produto                   produto     @relation(fields: [Produto_idProduto], references: [idProduto], onDelete: NoAction, onUpdate: NoAction, map: "fk_Funcionario_has_Produto_Produto1")
+
+  @@id([Funcionario_idFuncionario, Produto_idProduto])
+  @@index([Funcionario_idFuncionario], map: "fk_Funcionario_has_Produto_Funcionario1_idx")
+  @@index([Produto_idProduto], map: "fk_Funcionario_has_Produto_Produto1_idx")
+}
+
+model cliente {
+  CPF           Int          @id @unique(map: "CPF_UNIQUE")
+  CNPJ          Int?         @unique(map: "CNPJ_UNIQUE")
+  primeiro_nome String       @db.VarChar(255)
+  ultimo_nome   String       @db.VarChar(255)
+  nascimento    DateTime     @db.Date
+  idConta       String       @unique(map: "idConta_UNIQUE") @db.VarChar(255)
+  idEndereco    Int          @unique(map: "idEndereco_UNIQUE")
+  idContato     String       @unique(map: "idContato_UNIQUE") @db.VarChar(255)
+  fk_idPedido   Int          @unique(map: "idPedido_UNIQUE")
+  contato       contato      @relation(fields: [idContato], references: [email], onDelete: NoAction, onUpdate: NoAction, map: "email")
+  endereco      endereco     @relation(fields: [idEndereco], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "id")
+  pedido        pedido       @relation(fields: [fk_idPedido], references: [idPedido], onDelete: NoAction, onUpdate: NoAction, map: "idPedido")
+  conta         conta        @relation(fields: [idConta], references: [nome_usuario], onDelete: NoAction, onUpdate: NoAction, map: "nome_usuario")
+  compra        compra[]
+  gerencia_c    gerencia_c[]
+}
+
+model compra {
+  Produto_idProduto Int
+  Cliente_CPF       Int
+  cliente           cliente @relation(fields: [Cliente_CPF], references: [CPF], onDelete: NoAction, onUpdate: NoAction, map: "fk_Produto_has_Cliente_Cliente1")
+  produto           produto @relation(fields: [Produto_idProduto], references: [idProduto], onDelete: NoAction, onUpdate: NoAction, map: "fk_Produto_has_Cliente_Produto1")
+
+  @@id([Produto_idProduto, Cliente_CPF])
+  @@index([Cliente_CPF], map: "fk_Produto_has_Cliente_Cliente1_idx")
+  @@index([Produto_idProduto], map: "fk_Produto_has_Cliente_Produto1_idx")
+}
+
+model conta {
+  nome_usuario  String         @id @unique(map: "nome_usuário_UNIQUE") @db.VarChar(255)
+  senha         String         @db.VarChar(255)
+  administrador administrador?
+  cliente       cliente?
+  funcionario   funcionario?
+}
+
+model contato {
+  email        String   @id @unique(map: "email_UNIQUE") @db.VarChar(255)
+  DDI_telefone Int?
+  DDD_telefone Int?
+  telefone     Int?     @unique(map: "telefone_UNIQUE")
+  DDI_celular  Int
+  DDD_celular  Int
+  celular      String   @unique(map: "celular_UNIQUE") @db.VarChar(45)
+  cliente      cliente?
+}
+
+model contem {
+  Produto_idProduto Int
+  Pedido_idPedido   Int
+  pedido            pedido  @relation(fields: [Pedido_idPedido], references: [idPedido], onDelete: NoAction, onUpdate: NoAction, map: "fk_Produto_has_Pedido_Pedido1")
+  produto           produto @relation(fields: [Produto_idProduto], references: [idProduto], onDelete: NoAction, onUpdate: NoAction, map: "fk_Produto_has_Pedido_Produto1")
+
+  @@id([Produto_idProduto, Pedido_idPedido])
+  @@index([Pedido_idPedido], map: "fk_Produto_has_Pedido_Pedido1_idx")
+  @@index([Produto_idProduto], map: "fk_Produto_has_Pedido_Produto1_idx")
+}
+
+model endereco {
+  id          Int      @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  Rua         String   @db.VarChar(255)
+  Bairro      String   @db.VarChar(255)
+  numero_casa Int
+  complemento String?  @unique(map: "complemento_UNIQUE") @db.VarChar(255)
+  CEP         Int
+  Cidade      String   @db.VarChar(255)
+  Estado      String   @db.VarChar(255)
+  Pais        String   @db.VarChar(255)
+  cliente     cliente?
+}
+
+model funcionario {
+  idFuncionario Int          @id @unique(map: "idFuncionario_UNIQUE")
+  primeiro_nome String       @db.VarChar(255)
+  ultimo_nome   String       @db.VarChar(255)
+  idConta       String       @unique(map: "idConta_UNIQUE") @db.VarChar(255)
+  atualiza      atualiza[]
+  conta         conta        @relation(fields: [idConta], references: [nome_usuario], onDelete: NoAction, onUpdate: NoAction, map: "nome_usuario_f")
+  gerencia_f    gerencia_f[]
+}
+
+model gerencia_c {
+  Cliente_CPF                   Int
+  Administrador_idAdministrador Int
+  administrador                 administrador @relation(fields: [Administrador_idAdministrador], references: [idAdministrador], onDelete: NoAction, onUpdate: NoAction, map: "fk_Cliente_has_Administrador_Administrador1")
+  cliente                       cliente       @relation(fields: [Cliente_CPF], references: [CPF], onDelete: NoAction, onUpdate: NoAction, map: "fk_Cliente_has_Administrador_Cliente1")
+
+  @@id([Cliente_CPF, Administrador_idAdministrador])
+  @@index([Administrador_idAdministrador], map: "fk_Cliente_has_Administrador_Administrador1_idx")
+  @@index([Cliente_CPF], map: "fk_Cliente_has_Administrador_Cliente1_idx")
+}
+
+model gerencia_f {
+  Administrador_idAdministrador Int
+  Funcionario_idFuncionario     Int
+  administrador                 administrador @relation(fields: [Administrador_idAdministrador], references: [idAdministrador], onDelete: NoAction, onUpdate: NoAction, map: "fk_Administrador_has_Funcionario_Administrador1")
+  funcionario                   funcionario   @relation(fields: [Funcionario_idFuncionario], references: [idFuncionario], onDelete: NoAction, onUpdate: NoAction, map: "fk_Administrador_has_Funcionario_Funcionario1")
+
+  @@id([Administrador_idAdministrador, Funcionario_idFuncionario])
+  @@index([Administrador_idAdministrador], map: "fk_Administrador_has_Funcionario_Administrador1_idx")
+  @@index([Funcionario_idFuncionario], map: "fk_Administrador_has_Funcionario_Funcionario1_idx")
+}
+
+model pedido {
+  idPedido     Int      @id @default(autoincrement())
+  data_entrega DateTime @db.Date
+  quantidade   Int
+  cliente      cliente?
+  contem       contem[]
+}
+
+model produto {
+  idProduto      Int        @id @unique(map: "idProduto_UNIQUE") @default(autoincrement())
+  nome           String     @db.VarChar(255)
+  marca          String     @db.VarChar(255)
+  modelo         String     @db.VarChar(255)
+  preco          Decimal    @db.Decimal(8, 2)
+  qtd_disponivel Int
+  atualiza       atualiza[]
+  compra         compra[]
+  contem         contem[]
 }
