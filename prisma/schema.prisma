@@ -29,18 +29,20 @@ model atualiza {
 }
 
 model cliente {
-  CPF           Int          @id @unique(map: "CPF_UNIQUE")
-  CNPJ          Int?         @unique(map: "CNPJ_UNIQUE")
+  CPF           String       @id @unique(map: "CPF_UNIQUE")
+  CNPJ          String?      @unique(map: "CNPJ_UNIQUE")
   primeiro_nome String       @db.VarChar(255)
   ultimo_nome   String       @db.VarChar(255)
-  nascimento    DateTime     @db.Date
-  fk_idContato  String       @unique(map: "fk_idContato_UNIQUE") @db.VarChar(255)
-  fk_idConta    String       @unique(map: "Conta_nome_usuario_UNIQUE") @db.VarChar(255)
-  fk_idEndereco Int          @unique(map: "Endereco_id_UNIQUE")
+  dia_nascimento    Int     
+  mes_nascimento    Int     
+  ano_nascimento    Int     
+  fk_idContato  String?      @unique(map: "fk_idContato_UNIQUE") @db.VarChar(255)
+  fk_idConta    String?      @unique(map: "Conta_nome_usuario_UNIQUE") @db.VarChar(255)
+  fk_idEndereco Int?         @unique(map: "Endereco_id_UNIQUE")
   fk_idPedido   Int?         @unique(map: "fk_idPedido_UNIQUE")
-  conta         conta        @relation(fields: [fk_idConta], references: [nome_usuario], onDelete: NoAction, onUpdate: NoAction, map: "fk_Cliente_Conta")
-  contato       contato      @relation(fields: [fk_idContato], references: [email], onDelete: NoAction, onUpdate: NoAction, map: "fk_Cliente_Contato")
-  endereco      endereco     @relation(fields: [fk_idEndereco], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Cliente_Endereco")
+  conta         conta?       @relation(fields: [fk_idConta], references: [nome_usuario], onDelete: NoAction, onUpdate: NoAction, map: "fk_Cliente_Conta")
+  contato       contato?     @relation(fields: [fk_idContato], references: [email], onDelete: NoAction, onUpdate: NoAction, map: "fk_Cliente_Contato")
+  endereco      endereco?    @relation(fields: [fk_idEndereco], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Cliente_Endereco")
   pedido        pedido?      @relation(fields: [fk_idPedido], references: [idPedido], onDelete: NoAction, onUpdate: NoAction, map: "idPedido")
   compra        compra[]
   gerencia_c    gerencia_c[]
@@ -53,7 +55,7 @@ model cliente {
 
 model compra {
   Produto_idProduto Int
-  Cliente_CPF       Int
+  Cliente_CPF       String
   cliente           cliente @relation(fields: [Cliente_CPF], references: [CPF], onDelete: NoAction, onUpdate: NoAction, map: "fk_Produto_has_Cliente_Cliente1")
   produto           produto @relation(fields: [Produto_idProduto], references: [idProduto], onDelete: NoAction, onUpdate: NoAction, map: "fk_Produto_has_Cliente_Produto1")
 
@@ -116,7 +118,7 @@ model funcionario {
 }
 
 model gerencia_c {
-  Cliente_CPF                   Int
+  Cliente_CPF                   String
   Administrador_idAdministrador Int
   administrador                 administrador @relation(fields: [Administrador_idAdministrador], references: [idAdministrador], onDelete: NoAction, onUpdate: NoAction, map: "fk_Cliente_has_Administrador_Administrador1")
   cliente                       cliente       @relation(fields: [Cliente_CPF], references: [CPF], onDelete: NoAction, onUpdate: NoAction, map: "fk_Cliente_has_Administrador_Cliente1")
