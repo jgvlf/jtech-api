@@ -47,7 +47,7 @@
   <h3 align="center">JTech API</h3>
 
   <p align="center">
-    A Techonology E-Comerce API
+    The JTech API
     <br />
     <br />
     <br />
