@@ -44,7 +44,7 @@
     <img src="images/JTech_Logo.png" alt="Logo" width="100" height="100">
   </a>
 
-  <h3 align="center">JTech</h3>
+  <h3 align="center">JTech API</h3>
 
   <p align="center">
     A Techonology E-Comerce API
