@@ -41,7 +41,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/jgvlf/JTech">
-    <img src="images/JTech_Logo.png" alt="Logo" width="100" height="100">
+    <img src="images/JTech_Logo.svg" alt="Logo" width="200" height="100">
   </a>
 
   <h3 align="center">JTech API</h3>
